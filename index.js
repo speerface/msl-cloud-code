@@ -8,26 +8,12 @@ var app        = express();
 app.use( bodyParser.urlencoded( { extended: false } ) );
 app.use( bodyParser.json() );
 
-app.get('/', function (req, res) {
-
-    CloudCode.trigger( 'beforeSave', 'Action', { object: 'hey there' } ).then( function( response ){
+app.post( '/function/:functionName', function(req, res) {
+   var functionName = req.params.functionName,
+       body = req.body;
+    
+    CloudCode.triggerFunction( functionName, body ).then( function( response ) {
         res.send( JSON.stringify( response ) );
-    });
-
-});
-
-app.get('/testPost', function(req, res) {
-    var Log = Parse.Object.extend( 'Log' );
-    var deleteLog = new Log();
-
-    deleteLog.set( 'error', 'not really an error, just testing' );
-    deleteLog.set( 'guid', 'testguid-12345' );
-    deleteLog.save().then( function( response ) {
-        console.log( response );
-       res.send( response.id );
-    },
-    function( error ) {
-        res.send( JSON.stringify( error ) );
     });
 });
 
