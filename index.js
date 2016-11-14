@@ -1,8 +1,9 @@
-var express    = require( 'express' );
-var Parse      = require( 'parse/node' );
-var cloud      = require( './lib/cloud' );
-var CloudCode  = require( './lib/hooks' );
-var bodyParser = require( 'body-parser' );
+var express    = require('express');
+var Parse      = require('parse/node');
+var cloud      = require('./lib/cloud');
+var CloudCode  = require('./lib/hooks');
+var bodyParser = require('body-parser');
+var Promise    = require('bluebird');
 var app        = express();
 
 app.use( bodyParser.urlencoded( { extended: false } ) );
@@ -18,12 +19,15 @@ app.post( '/function/:functionName', function(req, res) {
 });
 
 app.post( '/beforeSave', function(req, res) {
-    var type  = req.body.type,
-        data  = req.body.data,
-        isNew = req.body.new,
-        user  = req.body.user;
+    var type   = req.body.type,
+        data   = req.body.data,
+        isNew  = req.body.new,
+        user   = req.body.user,
+        app_id = req.get( 'x-parse-application-id' );
 
-    parseObject( isNew, type, data ).then( function( obj ) {
+    cloud.initParse( app_id );
+
+    parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
         });
@@ -31,12 +35,15 @@ app.post( '/beforeSave', function(req, res) {
 });
 
 app.post( '/afterSave', function(req, res) {
-    var type  = req.body.type,
-        data  = req.body.data,
-        isNew = false,
-        user  = req.body.user;
+    var type   = req.body.type,
+        data   = req.body.data,
+        isNew  = false,
+        user   = req.body.user,
+        app_id = req.get( 'x-parse-application-id' );
 
-    parseObject( isNew, type, data ).then( function( obj ) {
+    cloud.initParse( app_id );
+
+    parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'afterSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
         });
@@ -44,12 +51,15 @@ app.post( '/afterSave', function(req, res) {
 });
 
 app.post( '/beforeDelete', function(req, res) {
-    var type  = req.body.type,
-        data  = req.body.data,
-        isNew = false,
-        user  = req.body.user;
+    var type   = req.body.type,
+        data   = req.body.data,
+        isNew  = false,
+        user   = req.body.user,
+        app_id = req.get( 'x-parse-application-id' );
 
-    parseObject( isNew, type, data ).then( function( obj ) {
+    cloud.initParse( app_id );
+
+    parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeDelete', type, { object: obj, user: user } ).then( function( response ){
             console.log( response );
             res.send( JSON.stringify( response ) );
@@ -59,24 +69,27 @@ app.post( '/beforeDelete', function(req, res) {
 
 app.post( '/afterDelete', function(req, res) {
 
-    var type  = req.body.type,
-        data  = req.body.data,
-        isNew = false,
-        user  = req.body.user;
+    var type   = req.body.type,
+        data   = req.body.data,
+        isNew  = false,
+        user   = req.body.user,
+        app_id = req.get( 'x-parse-application-id' );
 
-    parseObject( isNew, type, data ).then( function( obj ) {
+    cloud.initParse( app_id );
+
+    parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'afterDelete', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
         });
     });
 });
 
-app.listen(3000, function () {
-    Parse.initialize( "uDurhUNh3PWciPFDcUH2DgsKGkbsNCSYg9sd8J3K", "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
-    Parse.serverURL = 'http://192.168.0.13/1';
-});
+app.listen(3000, function(){});
 
-function parseObject( isNew, type, data ) {
+function parseObject( isNew, type, data, app_id ) {
+    console.log( app_id );
+    Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
+    Parse.serverURL = 'https://api.mysupplylive.com/1';
 
     return new Promise( function( resolve, reject ) {
         var object = Parse.Object.extend( type );
