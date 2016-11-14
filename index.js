@@ -25,8 +25,6 @@ app.post( '/beforeSave', function(req, res) {
         user   = req.body.user,
         app_id = req.get( 'x-parse-application-id' );
 
-    cloud.initParse( app_id );
-
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
@@ -41,8 +39,6 @@ app.post( '/afterSave', function(req, res) {
         user   = req.body.user,
         app_id = req.get( 'x-parse-application-id' );
 
-    cloud.initParse( app_id );
-
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'afterSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
@@ -56,8 +52,6 @@ app.post( '/beforeDelete', function(req, res) {
         isNew  = false,
         user   = req.body.user,
         app_id = req.get( 'x-parse-application-id' );
-
-    cloud.initParse( app_id );
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeDelete', type, { object: obj, user: user } ).then( function( response ){
