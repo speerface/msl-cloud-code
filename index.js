@@ -11,7 +11,12 @@ app.use( bodyParser.json() );
 
 app.post( '/function/:functionName', function(req, res) {
    var functionName = req.params.functionName,
-       body = req.body;
+       body         = req.body,
+       app_id       = req.get( 'x-parse-application-id' );
+
+
+    Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
+    Parse.serverURL = 'https://api.mysupplylive.com/1';
     
     CloudCode.triggerFunction( functionName, body ).then( function( response ) {
         res.send( JSON.stringify( response ) );
@@ -79,7 +84,7 @@ app.post( '/afterDelete', function(req, res) {
 app.listen(3000, function(){});
 
 function parseObject( isNew, type, data, app_id ) {
-    console.log( app_id );
+
     Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
     Parse.serverURL = 'https://api.mysupplylive.com/1';
 
