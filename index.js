@@ -18,8 +18,6 @@ app.post( '/function/:functionName', function(req, res) {
     Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
     Parse.serverURL = 'https://api.mysupplylive.com/1';
 
-    console.log( Parse.serverURL );
-    
     CloudCode.triggerFunction( functionName, body ).then( function( response ) {
         res.send( JSON.stringify( response ) );
     });
