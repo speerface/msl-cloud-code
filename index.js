@@ -14,6 +14,8 @@ app.post( '/function/:functionName', function(req, res) {
        body         = req.body,
        app_id       = req.get( 'x-parse-application-id' );
 
+    console.log( body );
+
     Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
     Parse.serverURL = 'https://api.mysupplylive.com/1';
 
