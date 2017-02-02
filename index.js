@@ -107,6 +107,7 @@ function parseObject( isNew, type, data, app_id ) {
                     resolve( object );
                 },
                 function( error ) {
+                    console.log( error );
                 }
             );
         }
