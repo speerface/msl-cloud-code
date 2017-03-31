@@ -20,6 +20,7 @@ app.post( '/function/:functionName', function(req, res) {
 
     CloudCode.triggerFunction( functionName, body ).then( function( response ) {
         res.send( JSON.stringify( response ) );
+        return;
     });
 });
 
@@ -35,6 +36,7 @@ app.post( '/beforeSave', function(req, res) {
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
+            return;
         });
     });
 });
@@ -57,6 +59,7 @@ app.post( '/afterSave', function(req, res) {
 
         CloudCode.trigger( 'afterSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
+            return;
         });
     });
 });
@@ -71,6 +74,7 @@ app.post( '/beforeDelete', function(req, res) {
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeDelete', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
+            return;
         });
     });
 });
@@ -86,6 +90,7 @@ app.post( '/afterDelete', function(req, res) {
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'afterDelete', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
+            return;
         });
     });
 });
@@ -114,10 +119,12 @@ function parseObject( isNew, type, data, app_id ) {
             query.get( data.objectId ).then(
                 function( object ) {
                     resolve( object );
+                    return;
                 },
                 function( error ) {
                     console.log( error );
                     resolve( {} );
+                    return;
                 }
             );
         }
