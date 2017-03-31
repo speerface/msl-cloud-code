@@ -44,6 +44,8 @@ app.post( '/afterSave', function(req, res) {
         user   = req.body.user,
         app_id = req.get( 'x-parse-application-id' );
 
+    console.log( data );
+
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
 
         if ( ! obj.length ) {
@@ -66,7 +68,6 @@ app.post( '/beforeDelete', function(req, res) {
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
         CloudCode.trigger( 'beforeDelete', type, { object: obj, user: user } ).then( function( response ){
-            console.log( response );
             res.send( JSON.stringify( response ) );
         });
     });
@@ -108,7 +109,6 @@ function parseObject( isNew, type, data, app_id ) {
             resolve( self );
         } else {
             var query = new Parse.Query( object );
-            console.log( data );
             query.get( data.objectId ).then(
                 function( object ) {
                     resolve( object );
