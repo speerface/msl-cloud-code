@@ -15,7 +15,7 @@ app.post( '/function/:functionName', function(req, res) {
        body         = req.body,
        app_id       = req.get( 'x-parse-application-id' );
 
-    Parse.initialize( app_id, "kQ7iEN0zsUZgUgVk" );
+    Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
     Parse.serverURL = 'https://api.ga.mysupplylive.com/1';
 
     CloudCode.triggerFunction( functionName, body ).then( function( response ) {
@@ -96,7 +96,7 @@ app.listen(3000, function(){
 
 function parseObject( isNew, type, data, app_id ) {
 
-    Parse.initialize( app_id, "kQ7iEN0zsUZgUgVk" );
+    Parse.initialize( app_id, "zVw4LTe6k2QmD4n2L2gPdMradqoobe5QXTwsirHE" );
     Parse.serverURL = 'https://api.ga.mysupplylive.com/1';
 
     return new Promise( function( resolve, reject ) {
