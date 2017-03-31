@@ -48,7 +48,7 @@ app.post( '/afterSave', function(req, res) {
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
 
-        console.log( obj.length );
+        console.log( Object.keys(obj).length === 0 && obj.constructor === Object );
 
         if ( ! obj.length ) {
             res.send( JSON.stringify( { 'error': 'Could not connect to api server.' } ) );
