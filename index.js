@@ -50,7 +50,7 @@ app.post( '/afterSave', function(req, res) {
 
         console.log( Object.keys(obj).length === 0 && obj.constructor === Object );
 
-        if ( ! obj.length ) {
+        if ( Object.keys(obj).length === 0 && obj.constructor === Object ) {
             res.send( JSON.stringify( { 'error': 'Could not connect to api server.' } ) );
             return;
         }
@@ -115,7 +115,7 @@ function parseObject( isNew, type, data, app_id ) {
             var query = new Parse.Query( object );
             query.get( data.objectId ).then(
                 function( object ) {
-                    resolve( object );
+                    resolve( {} );
                 },
                 function( error ) {
                     console.log( error );
