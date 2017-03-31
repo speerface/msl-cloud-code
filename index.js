@@ -99,8 +99,6 @@ function parseObject( isNew, type, data, app_id ) {
     Parse.initialize( app_id, "kQ7iEN0zsUZgUgVk" );
     Parse.serverURL = 'https://api.ga.mysupplylive.com/1';
 
-    console.log( data );
-
     return new Promise( function( resolve, reject ) {
         var object = Parse.Object.extend( type );
         if ( isNew ) {
@@ -112,6 +110,9 @@ function parseObject( isNew, type, data, app_id ) {
             }
             resolve( self );
         } else {
+
+            console.log( object );
+
             var query = new Parse.Query( object );
             query.get( data.objectId ).then(
                 function( object ) {
