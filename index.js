@@ -25,20 +25,20 @@ app.post( '/function/:functionName', function(req, res) {
 });
 
 app.post( '/beforeSave', function(req, res) {
-    var type   = req.body.type,
-        data   = req.body.data,
-        isNew  = req.body.new,
-        user   = req.body.user,
-        app_id = req.get( 'x-parse-application-id' );
-
-    res.send( 'done' );
-
-    parseObject( isNew, type, data, app_id ).then( function( obj ) {
-        CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
-            res.send( JSON.stringify( response ) );
-            return;
-        });
-    });
+//    var type   = req.body.type,
+//        data   = req.body.data,
+//        isNew  = req.body.new,
+//        user   = req.body.user,
+//        app_id = req.get( 'x-parse-application-id' );
+//
+//    res.send( 'done' );
+//
+//    parseObject( isNew, type, data, app_id ).then( function( obj ) {
+//        CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
+//            res.send( JSON.stringify( response ) );
+//            return;
+//        });
+//    });
 });
 
 app.post( '/afterSave', function(req, res) {
