@@ -42,11 +42,11 @@ app.post( '/beforeSave', function(req, res) {
 });
 
 app.post( '/afterSave', function(req, res) {
-    var type   = req.body.type,
-        data   = req.body.data,
-        isNew  = false,
-        user   = req.body.user,
-        app_id = req.get( 'x-parse-application-id' );
+//    var type   = req.body.type,
+//        data   = req.body.data,
+//        isNew  = false,
+//        user   = req.body.user,
+//        app_id = req.get( 'x-parse-application-id' );
 
     console.log( 'gonna do aftersave' );
     res.send( '' );
