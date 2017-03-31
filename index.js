@@ -44,8 +44,6 @@ app.post( '/afterSave', function(req, res) {
         user   = req.body.user,
         app_id = req.get( 'x-parse-application-id' );
 
-    log.info( data );
-
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
 
         if ( ! obj.length ) {
