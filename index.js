@@ -47,6 +47,9 @@ app.post( '/afterSave', function(req, res) {
         app_id = req.get( 'x-parse-application-id' );
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
+
+        console.log( obj );
+
         if ( ! obj.length ) {
             res.send( JSON.stringify( { 'error': 'Could not connect to api server.' } ) );
             return;
