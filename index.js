@@ -110,15 +110,13 @@ function parseObject( isNew, type, data, app_id ) {
             }
             resolve( self );
         } else {
-
-            console.log( data.objectId );
-
             var query = new Parse.Query( object );
             query.get( data.objectId ).then(
                 function( object ) {
                     resolve( object );
                 },
                 function( error ) {
+                    console.log( error );
                     resolve( {} );
                 }
             );
