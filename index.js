@@ -32,11 +32,11 @@ app.post( '/beforeSave', function(req, res) {
 
     res.send( 'done' );
 
-//    parseObject( isNew, type, data, app_id ).then( function( obj ) {
-//        CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
-//            res.send( JSON.stringify( response ) );
-//        });
-//    });
+    parseObject( isNew, type, data, app_id ).then( function( obj ) {
+        CloudCode.trigger( 'beforeSave', type, { object: obj, user: user } ).then( function( response ){
+            res.send( JSON.stringify( response ) );
+        });
+    });
 });
 
 app.post( '/afterSave', function(req, res) {
@@ -47,8 +47,6 @@ app.post( '/afterSave', function(req, res) {
         app_id = req.get( 'x-parse-application-id' );
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
-
-        console.log( Object.keys(obj).length === 0 && obj.constructor === Object );
 
         if ( Object.keys(obj).length === 0 && obj.constructor === Object ) {
             res.send( JSON.stringify( { 'error': 'Could not connect to api server.' } ) );
@@ -115,7 +113,7 @@ function parseObject( isNew, type, data, app_id ) {
             var query = new Parse.Query( object );
             query.get( data.objectId ).then(
                 function( object ) {
-                    resolve( {} );
+                    resolve( object );
                 },
                 function( error ) {
                     console.log( error );
