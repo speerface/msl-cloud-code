@@ -20,7 +20,6 @@ app.post( '/function/:functionName', function(req, res) {
 
     CloudCode.triggerFunction( functionName, body ).then( function( response ) {
         res.send( JSON.stringify( response ) );
-        return;
     });
 });
 
@@ -42,15 +41,11 @@ app.post( '/beforeSave', function(req, res) {
 });
 
 app.post( '/afterSave', function(req, res) {
-//    var type   = req.body.type,
-//        data   = req.body.data,
-//        isNew  = false,
-//        user   = req.body.user,
-//        app_id = req.get( 'x-parse-application-id' );
-
-    console.log( 'gonna do aftersave' );
-    res.send( '' );
-    return;
+    var type   = req.body.type,
+        data   = req.body.data,
+        isNew  = false,
+        user   = req.body.user,
+        app_id = req.get( 'x-parse-application-id' );
 
     parseObject( isNew, type, data, app_id ).then( function( obj ) {
 
@@ -60,9 +55,6 @@ app.post( '/afterSave', function(req, res) {
         }
 
         console.log( 'gonna do the thing' );
-
-        res.send( 'done' );
-        return;
 
         CloudCode.trigger( 'afterSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
