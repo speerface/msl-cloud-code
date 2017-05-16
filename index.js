@@ -52,7 +52,7 @@ app.post( '/afterSave', function(req, res) {
             return;
         }
 
-        console.log( 'gonna do the thing' );
+        console.log( 'trigger afterSave for' + type );
 
         CloudCode.trigger( 'afterSave', type, { object: obj, user: user } ).then( function( response ){
             res.send( JSON.stringify( response ) );
